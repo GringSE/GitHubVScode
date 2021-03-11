@@ -18,5 +18,44 @@ class myUI(QMainWindow):
         self.brushSize = 2
         self.brushColor = Qt.black
         self.lastPoint = QPoint()
+        
+        def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.drawing = True
+            self.lastPoint = event.pos()
+
+
+    def mouseMoveEvent(self, event):
+        if(event.buttons() & Qt.LeftButton) & self.drawing:
+            painter = QPainter(self.image)
+            painter.setPen(QPen(self.brushColor, self.brushSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            painter.drawLine(self.lastPoint, event.pos())
+            self.lastPoint = event.pos()
+            self.update()
+
+
+
+    def mouseReleaseEvent(self, event):
+
+        if event.button() == Qt.LeftButton:
+            self.drawing = False
+
+
+    def paintEvent(self, event):
+        canvasPainter  = QPainter(self)
+        canvasPainter.drawImage(self.rect(),self.image, self.image.rect() )
+        
+    def accept(self):
+        self.image.fill(Qt.white)
+        self.update()
+    
+    def reject(self):
+        print("ho")
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    w = myUI()
+    w.show()
+    sys.exit(app.exec_())
 
     
