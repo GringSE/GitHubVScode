@@ -19,7 +19,7 @@ class myUI(QMainWindow):
         self.brushColor = Qt.black
         self.lastPoint = QPoint()
         
-        def mousePressEvent(self, event):
+    def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.drawing = True
             self.lastPoint = event.pos()
